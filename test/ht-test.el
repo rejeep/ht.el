@@ -210,6 +210,19 @@
     (should-not (ht-get table "bar"))
     (should-not (ht-get table "qux"))))
 
+(ert-deftest ht-test-find ()
+  (let* ((table (ht
+                 ("foo" 1)
+                 ("bar" 2)
+                 ("baz" 3)
+                 ("qux" 4)))
+         (result
+          (ht-find
+           (lambda (key value)
+             (= (% value 2) 0))
+           table)))
+    (should (equal result '("bar" 2)))))
+
 (defun ht-run-tests ()
   (interactive)
   (ert-run-tests-interactively "ht-test-"))
